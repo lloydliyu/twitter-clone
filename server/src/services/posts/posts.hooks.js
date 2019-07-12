@@ -1,8 +1,23 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
 
-const hooks = require('feathers-authentication-hooks');
+const authhook = require('feathers-authentication-hooks');
 
-const populate = require('feathers-populate-hook');
+const hooks = require('feathers-hooks-common');
+
+const populateSchema = {
+  include: [{ 
+    service: 'users',
+    nameAs: 'author',
+    parentField: 'author',
+    childField: '_id',
+  },
+  {
+    service: 'likes',
+    nameAs: 'likes',
+    asArray: true,
+    select: (hook, parentItem) => ({ post: parentItem._id }),
+  }],
+};
 
 module.exports = {
   before: {
@@ -10,42 +25,31 @@ module.exports = {
     find: [],
     get: [],
     create: [ 
-      hooks.associateCurrentUser({
+      authhook.associateCurrentUser({
           as: 'author'
         })
       ],
     update: [
-      hooks.restrictToOwner({
+      authhook.restrictToOwner({
         ownerField: 'author'
-      })
+      }),
+      hooks.dePopulate(),
     ],
     patch: [
-      hooks.restrictToOwner({
+      authhook.restrictToOwner({
         ownerField: 'author'
       }) 
     ],
     remove: [ 
-      hooks.restrictToOwner({
+      authhook.restrictToOwner({
         ownerField: 'author'
       }) 
     ],
   },
 
   after: {
-    all: [],
-    find: [
-      populate({
-        author: {
-          service: 'users',
-          f_key: 'id',
-          one: true
-        },
-        likes: {
-          service: 'likes',
-          l_key: 'post',
-        },
-      })
-    ],
+    all: [hooks.populate({ schema: populateSchema})],
+    find: [],
     get: [],
     create: [],
     update: [],

@@ -9,7 +9,7 @@ module.exports = function (options = {}) {
     const posts = method === 'find' ? result.data : [ result ];
     
     await Promise.all(posts.map(async post => {
-      likes = await app.service('likes').find({query: {postId: post._id}});
+      likes = await app.service('likes').find({query: {post: post._id}});
       post.likes = likes.total;
     }));
     

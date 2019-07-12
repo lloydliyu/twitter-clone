@@ -2,21 +2,23 @@ const { authenticate } = require('@feathersjs/authentication').hooks;
 
 const hooks = require('feathers-authentication-hooks');
 
+const populate = require('feathers-populate-hook');
+
 module.exports = {
   before: {
-    all: [ authenticate('jwt') ],
+    all: [ authenticate('jwt'), populate.compatibility() ],
     find: [],
     get: [],
     create: [
       hooks.associateCurrentUser({
-          as: 'userId'
+          as: 'user'
         })
     ],
     update: [],
     patch: [],
     remove: [
       hooks.restrictToOwner({
-        ownerField: 'userId'
+        ownerField: 'user'
       }) 
     ]
   },

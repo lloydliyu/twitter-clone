@@ -26,7 +26,8 @@ export default new Vuex.Store({
     }),
     service('likes', {
       instanceDefaults: {
-        postId: '',
+        post: '',
+        user: '',
       },
     }),
     auth({ userService: 'users' }),

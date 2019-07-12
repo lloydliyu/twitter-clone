@@ -31,6 +31,8 @@ Basic clone of twitter that allows logged in users to make a post and see a feed
     * [ ] Restrict to owner 
 * [ ] Display logged in user's avatar
 * [x] Display author avatar
+* [ ] Likes update in realtime
+* [ ] Enforce Image URL rules for posts and avatars
 * [ ] Refactor client side code
 * [ ] Testing suite
 * [ ] Dev set up guide

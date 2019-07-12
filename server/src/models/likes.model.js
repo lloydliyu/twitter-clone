@@ -6,8 +6,15 @@ module.exports = function (app) {
   const mongooseClient = app.get('mongooseClient');
   const { Schema } = mongooseClient;
   const likes = new Schema({
-    user: {type: Schema.Types.ObjectId, ref: 'users'},
-    post: { type: Schema.Types.ObjectId, ref: 'posts', required: true },
+    user: { 
+      type: Schema.Types.ObjectId, 
+      ref: 'users'
+    },
+    post: { 
+      type: Schema.Types.ObjectId, 
+      ref: 'posts', 
+      required: true
+    },
   }, {
     timestamps: true
   });

@@ -18,7 +18,10 @@ module.exports = function (app) {
     imageUrl: {
       type: String,
     },
-    likes: [{type: Schema.Types.ObjectId, ref: 'likes'}]
+    likes: [{
+      type: Schema.Types.ObjectId, 
+      ref: 'likes'
+    }],
   }, {
     timestamps: true,
   });
