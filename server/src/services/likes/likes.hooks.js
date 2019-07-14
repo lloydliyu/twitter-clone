@@ -4,6 +4,8 @@ const hooks = require('feathers-authentication-hooks');
 
 const populate = require('feathers-populate-hook');
 
+
+
 module.exports = {
   before: {
     all: [ authenticate('jwt'), populate.compatibility() ],
@@ -27,7 +29,14 @@ module.exports = {
     all: [],
     find: [],
     get: [],
-    create: [],
+    create: [ (context) => {
+      console.log(context);
+      context.app.service('posts').patch(
+        context.result.post, {
+          $push: {likes: context.result}
+        })
+      },
+    ],
     update: [],
     patch: [],
     remove: []

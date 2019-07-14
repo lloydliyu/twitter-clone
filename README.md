@@ -23,14 +23,17 @@ Basic clone of twitter that allows logged in users to make a post and see a feed
   * [x] List
   * [x] Display image if included
 * [x] Users can create/list/view/delete likes on client
-  * [ ] Validate like is unique scoped to the user and post
+  * [x] Validate like is unique scoped to the user and post
   * [x] Create
     * [x] Add PostId
     * [x] Add UserId
 * [x] Display logged in user's avatar
 * [x] Display author avatar
-* [ ] Likes update in realtime
+* [x] Likes update in realtime
 * [ ] Enforce Image URL rules for posts and avatars
+* [ ] When total number of posts exceeds pagination limit, latest posts don't load on refresh.
+  * [ ] List by latest
+  * [ ] Add infinite scroll pagination.
 * [ ] Refactor client side code
 * [ ] Testing suite
 * [ ] Dev set up guide

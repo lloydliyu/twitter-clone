@@ -48,7 +48,8 @@
           <v-layout
             align-center
             justify-end>
-            <v-icon @click="like(post._id)">favorite</v-icon>
+            <v-icon color="red" v-if="liked(post, user)">favorite</v-icon>
+            <v-icon @click="like(post._id)" v-else>favorite</v-icon>
             <span class="subheading mr-2">{{post.likes.length}}</span>
           </v-layout>
         </v-list-tile>
@@ -57,7 +58,6 @@
         </v-card-text>
         <v-img v-if="post.imageUrl" :src="post.imageUrl" />
       </v-card>
-      <pre>{{posts}}</pre>
     </v-layout>
   </v-container>
 </template>
@@ -109,6 +109,14 @@ export default {
     avatar(post) {
       return post.author.image_url || 'https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light';
     },
+    liked(post, user) {
+      for (let i = 0; i < post.likes.length; i++){
+        if (post.likes[i].hasOwnProperty('user') && post.likes[i]['user'] === user.userId) {
+          return true;
+        }
+      }
+      return false;
+    }
   },
   computed: {
     ...mapState('auth', { user: 'payload' }),
@@ -121,9 +129,17 @@ export default {
       isCreatePending: 'isCreatePending',
     }),
     ...mapGetters('posts', { findPostsInStore: 'find' }),
+    ...mapGetters('likes', { findLikesInStore: 'find' }),
     posts() {
       return this.findPostsInStore({
         query: {},
+      }).data.reverse();
+    },
+    likes() {
+      return this.findLikesInStore({
+        query: {
+          $populate: 'post'
+        },
       }).data.reverse();
     },
   },
