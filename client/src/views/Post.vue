@@ -29,13 +29,17 @@
           </v-container>
         </v-form>
       </v-card>
-      <v-card  width="60%" style="margin: 1px; padding: 10px 0 0 0" v-for="post in posts">
+      <v-card  width="60%" style="margin: 3px; padding: 10px 0 0 0" v-for="post in posts">
         <v-list-tile class="grow">
           <v-list-tile-avatar color="grey darken-3">
-            <v-img
+            <v-img 
+              v-if="post.author.imageUrl"
               class="elevation-6"
-              :src="avatar(post)"
+              src="post.author.imageUrl"
             ></v-img>
+            <v-avatar v-if="!post.author.imageUrl" color="red" size=40>
+              <span class="white--text headline">{{ post.author.displayName[0].toUpperCase() }}</span>
+            </v-avatar>
           </v-list-tile-avatar>
           <v-list-tile-content>
             <v-list-tile-title>{{post.author.displayName}}</v-list-tile-title>
@@ -51,6 +55,7 @@
         <v-card-text>
           {{post.body}}
         </v-card-text>
+        <v-img v-if="post.imageUrl" :src="post.imageUrl" />
       </v-card>
       <pre>{{posts}}</pre>
     </v-layout>
